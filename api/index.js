@@ -1,6 +1,10 @@
 import express from "express";
 import dotenv from "dotenv";
 import mongoose, { disconnect, mongo } from "mongoose";
+import authRoute from "./routes/auth.js";
+import hotelsRoute from "./routes/hotels.js";
+import roomsRoute from "./routes/rooms.js";
+import usersRoute from "./routes/users.js";
 
 const app = express();
 
@@ -24,8 +28,22 @@ mongoose.connection.on("connected", () => {
     console.log("MongoDB Connected!")
 })
 
+
+app.get("/users", (req, res) =>{
+    res.send("Hi, hello first request!")
+})
+
+
+// Middelwares
+app.use(express.json())
+app.use("/api/auth", authRoute)
+app.use("/api/hotels", hotelsRoute)
+app.use("/api/rooms", roomsRoute)
+app.use("/api/users", usersRoute)
+
 app.listen(8800, () => {
     connect()
     console.log("Connected to backend!")
 })
+
 
